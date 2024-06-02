@@ -16,10 +16,11 @@ def load_dataset(file_name):
 def save_model(theta0, theta):
     pkl_file_path  = os.path.join(config.SAVED_MODEL_PATH, "two_input_xor_nn.pkl")
     with open(pkl_file_path , "wb") as file_handle:
-        file_handle.dump("biases": theta0, 'weights':theta)
+        file_handle.dump({"params":{"biases":theta0,"weights":theta},"activation":config.f})
 
 def load_model(file_name):
     pkl_file_path = os.path.join(config.SAVED_MODEL_PATH, file_name)
     with open(pkl_file_path, "rb") as file_handle:
-        trained_params = file_handle.load()
-    return trained_params["biases"], trained_params['weights']
+         loaded_model = file_handle.load()
+
+    return loaded_model 
