@@ -13,4 +13,3 @@ RUN pip install -r /app/src/requirnments.txt
 ENV PYTHONPATH=${PYTHONPATH}:/app/src
 
 CMD ["python3", "./src/train_pipeline.py"]
-
