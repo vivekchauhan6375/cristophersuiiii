@@ -1,6 +1,6 @@
 FROM python:3.10.14-bookworm
 
-RUN pip isntall --upgrade pip
+RUN pip install --upgrade pip
 
 COPY src /app/src
 
