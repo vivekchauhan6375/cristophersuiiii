@@ -151,3 +151,5 @@ def run_training(tol,epsilon):
 if __name__ == "__main__":
    run_training(10**(-8),10**(-7))
    save_model(pl.theta0,pl.theta)
+
+
