@@ -16,3 +16,12 @@ DATAPATH = os.path.join(PACKAGE_ROOT,"datasets")
 #"/src/datasets"
 SAVED_MODEL_PATH = os.path.join(PACKAGE_ROOT,"trained_models")
 #"/src/trained_models"
+# src/config/config.py
+
+NUM_LAYERS = 3
+
+STRUCTURE = [
+    {'activation': 'input'},  # Input layer (no activation function needed)
+    {'activation': 'relu'},   # Hidden layer
+    {'activation': 'sigmoid'} # Output layer
+]
