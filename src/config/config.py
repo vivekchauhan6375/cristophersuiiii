@@ -1,16 +1,26 @@
+import pathlib
 import pandas as pd
+import os
 import numpy as np
-import torch
-from torch.nn import functional as F
-from torch.nn import Sequential
-from torch import nn
-from torch.utils.data import Dataset, DataLoader
+import tensorflow as tf
+from tensorflow.keras import Model, Input
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.optimizers import RMSprop
 
+import src
 
-# Model Hyperparameters
-minibatch_size = 2
-epochs = 199
-learning_rate = 1e-3
+training_data = None
+X_train = None
+Y_train = None
 
-# Loss Function and Optimizer
-bce_loss = nn.BCELoss()
+epochs = 100
+mb_size = 2
+
+try:
+    PACKAGE_ROOT = pathlib.Path(src.__file__).resolve().parent
+except AttributeError:
+    PACKAGE_ROOT = pathlib.Path(__file__).resolve().parent.parent  
+    print("Warning: 'src' module not found or '__file__' attribute is missing. Using fallback PACKAGE_ROOT.")
+
+DATAPATH = os.path.join(PACKAGE_ROOT, "datasets")
+SAVED_MODEL_PATH = os.path.join(PACKAGE_ROOT, "trained_models")

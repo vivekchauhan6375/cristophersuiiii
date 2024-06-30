@@ -1,20 +1,10 @@
-from torch.nn import Sequential
-from torch import nn
+import tensorflow as tf
+from keras.optimizers import RMSprop #type: ignore
 
-class sequential_mlp(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.sequential_nn = Sequential(
-            nn.Linear(in_features=2, out_features=4, device="cpu"),
-            nn.ReLU(),
-            nn.Linear(in_features=4, out_features=2, device="cpu"),
-            nn.ReLU(),
-            nn.Linear(in_features=2, out_features=1, device="cpu"),
-            nn.Sigmoid()
-        )
-    
-    def forward(self, inp):
-        nn_out = self.sequential_nn(inp)
-        return nn_out
+# Define the loss function
+def binary_cross_entropy_loss(Y_hat, Y_true):
+    return tf.reduce_mean(tf.keras.losses.binary_crossentropy(y_true=Y_true, y_pred=Y_hat))
 
-sequential_nn = sequential_mlp()
+
+# Optimizer
+optimizer = RMSprop(learning_rate=0.005)
