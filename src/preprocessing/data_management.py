@@ -1,38 +1,25 @@
-import os
+# Data Preparation
 import pandas as pd
-import pickle
-
-from src.config import config
-
-
-def load_dataset(file_name):
-
-    file_path = os.path.join(config.DATAPATH,file_name)
-    #"/src/datasets/file_name"
-
-    data = pd.read_csv(file_path)
-
-    return data
+import torch
+from torch.utils.data import Dataset, DataLoader
+from src.config.config import minibatch_size
 
 
-def save_model(theta0,theta):
+data = pd.DataFrame(data={"x1": [0, 0, 1, 1], "x2": [0, 1, 0, 1], "y": [0, 1, 1, 0]})
 
-    pkl_file_path = os.path.join(config.SAVED_MODEL_PATH,"two_input_xor_nn.pkl")
+class xor_dataset(Dataset):
+    def __init__(self, data):
+        self.training_data = data
 
-    with open(pkl_file_path,"wb") as file_handle:
-        pickle.dump({"params":{"biases":theta0,"weights":theta},"activations":config.f}, file_handle)
+    def __len__(self):
+        return len(self.training_data)
+        
+    def __getitem__(self, idx):
+        row = self.training_data.iloc[idx]
+        X_train = torch.tensor(row.iloc[0:2].values, dtype=torch.float32)
+        Y_train = torch.tensor(row.iloc[2], dtype=torch.float32)
+        return X_train, Y_train
 
-    print("Saved model with file name {} at {}".format("two_input_xor_nn.pkl",config.SAVED_MODEL_PATH))
-
-
-def load_model(file_name):
-
-    pkl_file_path = os.path.join(config.SAVED_MODEL_PATH,file_name)
-
-    with open(pkl_file_path,"rb") as file_handle:
-        loaded_model = pickle.load(file_handle)
-
-    return loaded_model
-
-
-    
+# DataLoader
+Xordataset = xor_dataset(data)
+data_gen = DataLoader(dataset=Xordataset, batch_size=minibatch_size)

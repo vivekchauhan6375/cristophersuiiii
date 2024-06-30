@@ -1,27 +1,16 @@
-import os
-import pathlib
-import src
+import pandas as pd
+import numpy as np
+import torch
+from torch.nn import functional as F
+from torch.nn import Sequential
+from torch import nn
+from torch.utils.data import Dataset, DataLoader
 
-NUM_INPUTS = 2
-NUM_LAYERS = 3
-P = [NUM_INPUTS,2,1]
 
-f = [None,"linear","sigmoid"]
+# Model Hyperparameters
+minibatch_size = 2
+epochs = 199
+learning_rate = 1e-3
 
-LOSS_FUNCTION = "Mean Squared Error"
-MINI_BATCH_SIZE = 1
-
-PACKAGE_ROOT = pathlib.Path(src.__file__).resolve().parent
-DATAPATH = os.path.join(PACKAGE_ROOT,"datasets") 
-#"/src/datasets"
-SAVED_MODEL_PATH = os.path.join(PACKAGE_ROOT,"trained_models")
-#"/src/trained_models"
-# src/config/config.py
-
-NUM_LAYERS = 3
-
-STRUCTURE = [
-    {'activation': 'input'},  # Input layer (no activation function needed)
-    {'activation': 'relu'},   # Hidden layer
-    {'activation': 'sigmoid'} # Output layer
-]
+# Loss Function and Optimizer
+bce_loss = nn.BCELoss()
